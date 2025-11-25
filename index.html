@@ -4,22 +4,21 @@
   <meta charset="UTF-8" />
   <title>AI Clipping Studio — Vlad Kuzmenko</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #020617;
-      --bg-soft: rgba(15, 23, 42, 0.8);
+      --bg-soft: rgba(15, 23, 42, 0.9);
       --accent: #38bdf8;
       --accent-soft: rgba(56, 189, 248, 0.2);
       --border-subtle: rgba(148, 163, 184, 0.25);
       --text-main: #e5e7eb;
       --text-muted: #9ca3af;
     }
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
@@ -40,14 +39,14 @@
       max-width: 720px;
       padding: 1px;
       border-radius: 32px;
-      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.8), rgba(249, 250, 251, 0.02));
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.85), rgba(15, 23, 42, 0.9));
       box-shadow:
         0 0 0 1px rgba(15, 23, 42, 0.9),
         0 32px 120px rgba(15, 23, 42, 0.9);
     }
     .card {
       border-radius: 31px;
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.92));
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
       padding: 28px 28px 24px;
       position: relative;
       overflow: hidden;
@@ -55,59 +54,52 @@
     .card::before {
       content: "";
       position: absolute;
-      inset: -120px;
+      inset: -160px;
       background:
-        radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.12), transparent 55%),
-        radial-gradient(circle at 100% 0%, rgba(129, 140, 248, 0.08), transparent 55%);
+        radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.18), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(129, 140, 248, 0.12), transparent 55%);
       opacity: 0.7;
       pointer-events: none;
     }
-    .card-inner {
-      position: relative;
-      z-index: 1;
-    }
+    .card-inner { position: relative; z-index: 1; }
     .badge-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
       gap: 12px;
+      margin-bottom: 16px;
     }
-    .badge {
+    .badge, .badge-pill {
       padding: 4px 10px;
       border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-      background: radial-gradient(circle at top left, rgba(15, 118, 110, 0.35), rgba(15, 23, 42, 0.95));
       font-size: 11px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--text-muted);
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+    }
+    .badge {
+      background: radial-gradient(circle at top left, rgba(16, 185, 129, 0.32), rgba(15, 23, 42, 0.98));
     }
     .badge-dot {
       width: 6px;
       height: 6px;
       border-radius: 999px;
       background: #22c55e;
-      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.22);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.24);
     }
     .badge-pill {
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.16), transparent 60%);
-      font-size: 11px;
+      border-color: rgba(56, 189, 248, 0.55);
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 60%);
       color: var(--text-main);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
     }
     .badge-pill span {
       font-size: 9px;
       text-transform: uppercase;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.18em;
       color: var(--text-muted);
     }
     h1 {
@@ -119,7 +111,7 @@
       margin: 0 0 20px;
       font-size: 14px;
       color: var(--text-muted);
-      max-width: 440px;
+      max-width: 460px;
     }
     .grid {
       display: grid;
@@ -128,9 +120,7 @@
       margin-top: 8px;
     }
     @media (max-width: 720px) {
-      .grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
+      .grid { grid-template-columns: minmax(0, 1fr); }
     }
     form {
       display: flex;
@@ -143,27 +133,21 @@
       margin-bottom: 4px;
       display: block;
     }
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+    .field { display: flex; flex-direction: column; gap: 4px; }
     input[type="file"],
     input[type="number"],
-    input[type="email"],
+    input[type="text"],
     select {
       width: 100%;
       border-radius: 999px;
       border: 1px solid var(--border-subtle);
-      background: rgba(15, 23, 42, 0.95);
+      background: var(--bg-soft);
       color: var(--text-main);
       font-size: 13px;
       padding: 9px 12px;
       outline: none;
     }
-    input[type="file"] {
-      padding: 7px 12px;
-    }
+    input[type="file"] { padding: 7px 12px; }
     input[type="file"]::file-selector-button {
       margin-right: 10px;
       border: none;
@@ -174,9 +158,7 @@
       font-size: 12px;
       cursor: pointer;
     }
-    input::placeholder {
-      color: var(--text-muted);
-    }
+    input::placeholder { color: var(--text-muted); }
     select {
       appearance: none;
       background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%), linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
@@ -184,13 +166,8 @@
       background-size: 5px 5px, 5px 5px;
       background-repeat: no-repeat;
     }
-    .row {
-      display: flex;
-      gap: 10px;
-    }
-    .row > .field {
-      flex: 1;
-    }
+    .row { display: flex; gap: 10px; }
+    .row > .field { flex: 1; }
     button[type="submit"] {
       margin-top: 4px;
       border: none;
@@ -225,7 +202,7 @@
     .side {
       border-radius: 22px;
       border: 1px solid rgba(148, 163, 184, 0.25);
-      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.96));
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.98));
       padding: 14px 14px 12px;
       font-size: 12px;
       color: var(--text-muted);
@@ -251,6 +228,10 @@
       border: 1px solid rgba(148, 163, 184, 0.4);
       color: var(--text-main);
       background: rgba(15, 23, 42, 0.9);
+    }
+    .notice {
+      font-size: 11px;
+      color: var(--text-muted);
     }
   </style>
 </head>
@@ -279,11 +260,6 @@
               <input id="video" name="video" type="file" accept="video/*" required />
             </div>
 
-            <div class="field">
-              <label for="email">Email для нотифікацій (опційно)</label>
-              <input id="email" name="email" type="email" placeholder="you@example.com" />
-            </div>
-
             <div class="row">
               <div class="field">
                 <label for="language">Мова виступу</label>
@@ -294,37 +270,34 @@
                 </select>
               </div>
               <div class="field">
-                <label for="project">Проєкт (лейбл)</label>
-                <input id="project" name="project" type="text" placeholder="Напр., Dacha TV / Personal brand" />
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="field">
                 <label for="max_clips">Макс. кількість кліпів</label>
                 <input id="max_clips" name="max_clips" type="number" min="1" max="25" value="10" />
               </div>
-              <div class="field">
-                <label for="min_duration_sec">Мін. довжина, сек</label>
-                <input id="min_duration_sec" name="min_duration_sec" type="number" min="5" max="120" value="20" />
-              </div>
-              <div class="field">
-                <label for="max_duration_sec">Макс. довжина, сек</label>
-                <input id="max_duration_sec" name="max_duration_sec" type="number" min="10" max="120" value="60" />
+            </div>
+
+            <div class="field">
+              <label for="telegram_chat_id">Telegram Chat ID (для відправки кліпів)</label>
+              <input id="telegram_chat_id" name="telegram_chat_id" type="text" placeholder="Напр., 6245332513" />
+              <div class="notice">
+                Спочатку напишіть /start вашому ботові, візьміть chat_id в n8n, а потім вставляйте його сюди.
               </div>
             </div>
 
-            <button type="submit">
-              Запустити AI-кліпінг
-            </button>
+            <div class="field">
+              <label for="project">Проєкт (лейбл)</label>
+              <input id="project" name="project" type="text" placeholder="Напр., Dacha TV / Personal brand" />
+            </div>
+
+            <button type="submit">Запустити AI-кліпінг</button>
           </form>
 
           <div class="side">
             <div class="side-title">Що відбувається далі</div>
             <div>
-              1. Відео зберігається у безпечну тимчасову директорію.<br />
+              1. Відео зберігається у тимчасову директорію на сервері.<br />
               2. AI робить транскрипцію та знаходить найсильніші моменти.<br />
-              3. Автоматично ріжемо ролики 9:16 із субтитрами.
+              3. Автоматично ріжемо вертикальні ролики 9:16 із субтитрами.<br />
+              4. Готові кліпи надсилаються у ваш Telegram-чат.
             </div>
             <div class="side-title">Пресети за замовчуванням</div>
             <div class="chip-row">
